@@ -6,8 +6,8 @@
  */
 'use strict';
 
-export const SUPABASE_URL = '';
-export const SUPABASE_ANON_KEY = '';
+export const SUPABASE_URL = 'https://efxmsqxxdlszcbovnmmn.supabase.co';
+export const SUPABASE_ANON_KEY = 'sb_publishable_RT0nR_FdCViPFsp2OM-PFQ_7KuL73Zk';
 
 /** Where Supabase should send the user back to after a magic-link click. */
 export const AUTH_REDIRECT_TO = typeof location !== 'undefined' ? location.origin + location.pathname : '';
