@@ -2,10 +2,14 @@
  * after site.css so equal-specificity page rules win, same convention as
  * the site.
  *
- * Colour carries meaning, not decoration — the only four coloured things
- * anywhere in this file: a filled ring (done), a sand wash across a row
- * (completed), pips (quota progress; a ghost pip is the stretch target),
- * and a solid tag (due today). Everything else is drawn in ink/muted/line.
+ * Colour carries meaning, not decoration. Four uses are load-bearing state
+ * signals: a filled ring (done), a sand wash across a row (completed),
+ * pips (quota progress; a ghost pip is the stretch target), and a solid
+ * tag (due today). A second, quieter layer uses the single --mode-dark
+ * tone as an identity accent on furniture that doesn't encode state —
+ * section eyebrows, the active mode label, the header hairline — the same
+ * way the approved brainstorm mockups (layout-katja.html, palette.html)
+ * do it. Everything else stays in ink/muted/line.
  *
  * Form: hairline rules, not cards. 2px radii. No drop shadows.
  */
@@ -54,7 +58,7 @@ body.mode-work {
   align-items: center;
   justify-content: space-between;
   gap: 1rem;
-  margin-bottom: 1.4rem;
+  margin-bottom: .9rem;
 }
 
 /* Plain tracked-caps text, not a boxed control — the active mode reads by
@@ -80,8 +84,17 @@ body.mode-work {
   text-transform: inherit;
 }
 .mode-toggle button[aria-pressed="true"] {
-  color: var(--ink);
+  color: var(--mode-dark);
   border-bottom-color: var(--mode-mid);
+}
+
+/* A thin gradient line under the header, fading from the accent into
+ * nothing — the one purely decorative flourish, straight from the
+ * approved mockups' ".hair" element. */
+.header-hair {
+  height: 1px;
+  background: linear-gradient(90deg, var(--mode-mid), var(--mode-light) 45%, transparent);
+  margin: 0 0 1.4rem;
 }
 
 .waiting-line {
@@ -174,7 +187,7 @@ body.mode-work {
   font-size: var(--fs-2xs);
   letter-spacing: .16em;
   text-transform: uppercase;
-  color: var(--muted);
+  color: var(--mode-dark);
   margin-bottom: .7rem;
   display: flex;
   align-items: baseline;
@@ -182,6 +195,7 @@ body.mode-work {
   gap: .5rem;
 }
 .section-title .fig { font-family: var(--font-mono); font-variant-numeric: tabular-nums; }
+.section-title .rhythm-log-btn { color: var(--muted); }
 
 .empty-note {
   font-family: var(--font-ui);
@@ -284,9 +298,9 @@ body.mode-work {
   font-family: var(--font-mono);
   font-variant-numeric: tabular-nums;
   font-size: var(--fs-sm);
-  color: var(--muted);
+  color: var(--mode-dark);
 }
-.cap-meter.at-cap { color: var(--mode-dark); }
+.cap-meter.at-cap { font-weight: 600; }
 
 /* Ghost row for whatever's left of the cap — "the slot is real, it's just
  * empty," rather than only a fraction in the eyebrow. */
@@ -414,7 +428,7 @@ body.mode-work {
   font-size: var(--fs-2xs);
   letter-spacing: .16em;
   text-transform: uppercase;
-  color: var(--muted);
+  color: var(--mode-dark);
   margin: 1.4rem 0 .5rem;
 }
 .list-block { margin-bottom: 1rem; }
