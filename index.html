@@ -15,7 +15,7 @@
 </head>
 <body class="mode-home">
 
-<div id="config-notice" class="config-notice app" hidden>
+<div id="config-notice" class="config-notice" hidden>
   This app has no Supabase project configured yet — it will work locally in
   this browser, but nothing will sync. See <code>SETUP.md</code> and fill in
   <code>assets/js/config.js</code>.
@@ -31,22 +31,29 @@
 </div>
 
 <div id="app" class="app" hidden>
-  <header class="app-header">
-    <div id="mode-toggle" class="mode-toggle" role="group" aria-label="Work or Home">
-      <button type="button" data-mode="home" aria-pressed="true">Home</button>
-      <button type="button" data-mode="work" aria-pressed="false">Work</button>
-    </div>
-    <div id="waiting-line" class="waiting-line"></div>
-  </header>
+  <div class="app-body">
+    <header class="app-header">
+      <div id="mode-toggle" class="mode-toggle" role="group" aria-label="Work or Home">
+        <button type="button" data-mode="home" aria-pressed="true">Home</button>
+        <button type="button" data-mode="work" aria-pressed="false">Work</button>
+      </div>
+      <div id="waiting-line" class="waiting-line"></div>
+    </header>
 
-  <input
-    id="capture"
-    class="capture"
-    type="text"
-    placeholder="What's on your mind…"
-    autocomplete="off"
-    autofocus
-  >
+    <div class="capture-line">
+      <span class="capture-caret" aria-hidden="true"></span>
+      <input
+        id="capture"
+        class="capture"
+        type="text"
+        placeholder="What's on your mind…"
+        autocomplete="off"
+        autofocus
+      >
+    </div>
+
+    <main id="view"></main>
+  </div>
 
   <nav id="nav" class="nav">
     <button type="button" data-view="today" aria-current="page">Today <span class="fig"></span></button>
@@ -55,12 +62,10 @@
     <button type="button" data-view="rituals">Rituals</button>
     <button type="button" data-view="lists">Lists</button>
   </nav>
-
-  <main id="view"></main>
 </div>
 
 <noscript>
-  <div class="config-notice app">This app is built in the browser and needs JavaScript to run.</div>
+  <div class="config-notice">This app is built in the browser and needs JavaScript to run.</div>
 </noscript>
 
 <script type="module" src="assets/js/app.js"></script>

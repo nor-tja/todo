@@ -10,7 +10,7 @@
  * Form: hairline rules, not cards. 2px radii. No drop shadows.
  */
 
-/* ---- mode palette: Crimson & Teal (Sanzo Wada) ---------------------- */
+/* ---- mode palette: Ruby & Pine (Sanzo Wada) -------------------------- */
 /* The mode switch is a palette switch — the user feels which mode they
  * are in before reading anything. Falls back to a neutral state before
  * JS has applied a mode class, so the shell never flashes unstyled. */
@@ -21,23 +21,30 @@ body {
   --mode-sand: var(--line);
 }
 body.mode-home {
-  --mode-light: #d9a2b0;
-  --mode-mid: #a92f4e;
-  --mode-dark: #7c2239;
-  --mode-sand: #dfb0bc;
+  --mode-light: #eda1aa;
+  --mode-mid: #d82f43;
+  --mode-dark: #97212f;
+  --mode-sand: #f0afb7;
 }
 body.mode-work {
-  --mode-light: #c2dcda;
-  --mode-mid: #509994;
-  --mode-dark: #3a706c;
-  --mode-sand: #cbe1e0;
+  --mode-light: #cee2cd;
+  --mode-mid: #50984e;
+  --mode-dark: #356433;
+  --mode-sand: #d5e6d4;
 }
 
 .app {
   max-width: 640px;
   margin: 0 auto;
-  padding: 1.6rem 1.2rem 4rem;
   min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+.app[hidden] { display: none; }
+
+.app-body {
+  padding: 1.6rem 1.2rem 1rem;
+  flex: 1;
 }
 
 /* ---- header: mode toggle + capture ----------------------------------- */
@@ -50,30 +57,31 @@ body.mode-work {
   margin-bottom: 1.4rem;
 }
 
+/* Plain tracked-caps text, not a boxed control — the active mode reads by
+ * ink weight and a single hairline underline, not a filled pill. */
 .mode-toggle {
   display: inline-flex;
-  border: 1px solid var(--line-strong);
-  border-radius: 2px;
-  overflow: hidden;
+  gap: 1.1rem;
   font-family: var(--font-ui);
   font-size: var(--fs-2xs);
-  letter-spacing: .14em;
+  letter-spacing: .16em;
   text-transform: uppercase;
 }
 .mode-toggle button {
   appearance: none;
   border: 0;
+  border-bottom: 2px solid transparent;
   background: transparent;
   color: var(--muted);
-  padding: .5rem .9rem;
+  padding: 0 0 .3rem;
   cursor: pointer;
   font: inherit;
   letter-spacing: inherit;
   text-transform: inherit;
 }
 .mode-toggle button[aria-pressed="true"] {
-  background: var(--mode-mid);
-  color: var(--bg);
+  color: var(--ink);
+  border-bottom-color: var(--mode-mid);
 }
 
 .waiting-line {
@@ -84,34 +92,53 @@ body.mode-work {
 }
 .waiting-line .fig { font-family: var(--font-mono); font-variant-numeric: tabular-nums; }
 
-/* Capture: a ruled line, not a boxed input — "paper being written on." */
+/* Capture: a ruled line, not a boxed input — "paper being written on." A
+ * thin accent mark stands in for a cursor, like a caret waiting on the
+ * line, rather than a chrome text field. */
+.capture-line {
+  display: flex;
+  align-items: baseline;
+  gap: .6rem;
+  border-bottom: 1px solid var(--line-strong);
+  padding: .3rem 0 .6rem;
+  margin-bottom: 1.6rem;
+}
+.capture-line:focus-within { border-bottom-color: var(--mode-mid); }
+.capture-caret {
+  flex: none;
+  width: 1px;
+  height: 1.1em;
+  background: var(--mode-mid);
+}
 .capture {
   display: block;
   width: 100%;
   border: 0;
-  border-bottom: 1px solid var(--line-strong);
   background: transparent;
   font-family: var(--font-serif);
   font-size: var(--fs-xl);
   line-height: 1.6;
-  padding: .3rem 0 .6rem;
   color: var(--ink);
-  margin-bottom: 1.6rem;
 }
 .capture::placeholder {
   font-style: italic;
   color: var(--muted);
 }
-.capture:focus { outline: none; border-bottom-color: var(--mode-mid); }
+.capture:focus { outline: none; }
 
 /* ---- nav ------------------------------------------------------------- */
 
+/* Bottom nav, not top — a hairline above it, no boxes, no active-tab fill.
+ * Sticks to the foot of the viewport as the page scrolls. */
 .nav {
   display: flex;
-  flex-wrap: wrap;
-  gap: 0 1.1rem;
-  margin-bottom: 1.6rem;
-  border-bottom: 1px solid var(--line);
+  justify-content: space-around;
+  flex: none;
+  position: sticky;
+  bottom: 0;
+  background: var(--bg);
+  border-top: 1px solid var(--line);
+  padding: .9rem 0 calc(.9rem + env(safe-area-inset-bottom, 0px));
   font-family: var(--font-ui);
   font-size: var(--fs-3xs);
   letter-spacing: .12em;
@@ -120,10 +147,9 @@ body.mode-work {
 .nav button {
   appearance: none;
   border: 0;
-  border-bottom: 2px solid transparent;
   background: transparent;
   color: var(--muted);
-  padding: .7rem .1rem .6rem;
+  padding: 0;
   cursor: pointer;
   font: inherit;
   letter-spacing: inherit;
@@ -136,7 +162,7 @@ body.mode-work {
 }
 .nav button[aria-current="page"] {
   color: var(--ink);
-  border-bottom-color: var(--mode-mid);
+  font-weight: 500;
 }
 .nav button:hover { color: var(--ink); }
 
@@ -152,6 +178,7 @@ body.mode-work {
   margin-bottom: .7rem;
   display: flex;
   align-items: baseline;
+  flex-wrap: wrap;
   gap: .5rem;
 }
 .section-title .fig { font-family: var(--font-mono); font-variant-numeric: tabular-nums; }
@@ -260,6 +287,27 @@ body.mode-work {
   color: var(--muted);
 }
 .cap-meter.at-cap { color: var(--mode-dark); }
+
+/* Ghost row for whatever's left of the cap — "the slot is real, it's just
+ * empty," rather than only a fraction in the eyebrow. */
+.slot-ghost {
+  font-family: var(--font-ui);
+  font-size: var(--fs-3xs);
+  letter-spacing: .14em;
+  text-transform: uppercase;
+  color: var(--muted);
+  padding: .6rem 0 .1rem;
+}
+
+/* Small quiet line for context that doesn't need its own row — e.g. how
+ * many other rhythms are done or not due today. */
+.aside-note {
+  font-family: var(--font-ui);
+  font-size: var(--fs-4xs);
+  letter-spacing: .1em;
+  color: var(--muted);
+  padding: .3rem 0 0;
+}
 
 /* ---- rhythms strip ------------------------------------------------------ */
 
@@ -447,6 +495,8 @@ body.mode-work {
 /* ---- config notice ------------------------------------------------------ */
 
 .config-notice {
+  max-width: 640px;
+  margin: 1.2rem auto 1.5rem;
   font-family: var(--font-ui);
   font-size: var(--fs-xs);
   line-height: 1.6;
@@ -454,6 +504,5 @@ body.mode-work {
   background: var(--panel-bg);
   border-left: 3px solid var(--mode-mid, var(--line-strong));
   padding: .9rem 1.1rem;
-  margin: 0 0 1.5rem;
   border-radius: 2px;
 }

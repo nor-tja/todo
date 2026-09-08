@@ -95,7 +95,7 @@ test('the four semantic colour uses are all present: filled ring, sand wash, pip
     'no solid tag rule for a due-today deadline');
 });
 
-test('both mode palettes declare all four tiers, matching the spec\'s Crimson & Teal values', () => {
+test('both mode palettes declare all four tiers, matching the Ruby & Pine values', () => {
   const css = decomment(APP);
   const home = /body\.mode-home\s*\{([^}]*)\}/.exec(css);
   const work = /body\.mode-work\s*\{([^}]*)\}/.exec(css);
@@ -104,6 +104,6 @@ test('both mode palettes declare all four tiers, matching the spec\'s Crimson & 
     assert.match(home[1], new RegExp(`${tier}:\\s*#`), `mode-home is missing ${tier}`);
     assert.match(work[1], new RegExp(`${tier}:\\s*#`), `mode-work is missing ${tier}`);
   }
-  assert.match(home[1], /--mode-mid:\s*#a92f4e/i, 'home mid does not match the spec');
-  assert.match(work[1], /--mode-mid:\s*#509994/i, 'work mid does not match the spec');
+  assert.match(home[1], /--mode-mid:\s*#d82f43/i, 'home mid does not match Ruby & Pine');
+  assert.match(work[1], /--mode-mid:\s*#50984e/i, 'work mid does not match Ruby & Pine');
 });

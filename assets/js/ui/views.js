@@ -30,13 +30,20 @@ export function renderToday(container, store, { context, onChange }) {
   const strip = todaysStrip(store.rhythms, store.rhythmLog, { context, today });
   const list = todayList(store.tasks, { context });
   const remaining = remainingCapacity(store.tasks, { context });
+  const activeRhythms = store.rhythms.filter((r) => r.active && r.context === context).length;
+  const quiet = activeRhythms - strip.length;
 
   const section = h(`
     <div>
-      ${strip.length ? `<div class="section">
-        <div class="section-title">Today's rhythms</div>
+      <div class="section">
+        <div class="section-title">
+          Rhythms <span class="fig">${strip.length} open</span>
+          <button type="button" class="rhythm-log-btn" id="toggle-add-rhythm">+ new</button>
+        </div>
         <div class="rhythm-strip"></div>
-      </div>` : ''}
+        ${quiet > 0 ? `<div class="aside-note">${quiet} other${quiet === 1 ? '' : 's'} quiet today</div>` : ''}
+        <div id="add-rhythm-form"></div>
+      </div>
       <div class="section">
         <div class="section-title">
           Today
@@ -44,10 +51,7 @@ export function renderToday(container, store, { context, onChange }) {
         </div>
         <ul class="task-list"></ul>
         ${list.length === 0 ? '<p class="empty-note">Nothing committed yet — pull something from Backlog.</p>' : ''}
-      </div>
-      <div class="section">
-        <div class="section-title">Rhythms <button type="button" class="rhythm-log-btn" id="toggle-add-rhythm">+ new</button></div>
-        <div id="add-rhythm-form"></div>
+        ${remaining > 0 ? `<div class="slot-ghost">+ ${remaining} slot${remaining === 1 ? '' : 's'} free</div>` : ''}
       </div>
     </div>
   `);
