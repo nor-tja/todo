@@ -1,0 +1,459 @@
+/* App-specific styles: the mode palette, and every component. Loaded
+ * after site.css so equal-specificity page rules win, same convention as
+ * the site.
+ *
+ * Colour carries meaning, not decoration — the only four coloured things
+ * anywhere in this file: a filled ring (done), a sand wash across a row
+ * (completed), pips (quota progress; a ghost pip is the stretch target),
+ * and a solid tag (due today). Everything else is drawn in ink/muted/line.
+ *
+ * Form: hairline rules, not cards. 2px radii. No drop shadows.
+ */
+
+/* ---- mode palette: Crimson & Teal (Sanzo Wada) ---------------------- */
+/* The mode switch is a palette switch — the user feels which mode they
+ * are in before reading anything. Falls back to a neutral state before
+ * JS has applied a mode class, so the shell never flashes unstyled. */
+body {
+  --mode-light: var(--line);
+  --mode-mid: var(--line-strong);
+  --mode-dark: var(--ink);
+  --mode-sand: var(--line);
+}
+body.mode-home {
+  --mode-light: #d9a2b0;
+  --mode-mid: #a92f4e;
+  --mode-dark: #7c2239;
+  --mode-sand: #dfb0bc;
+}
+body.mode-work {
+  --mode-light: #c2dcda;
+  --mode-mid: #509994;
+  --mode-dark: #3a706c;
+  --mode-sand: #cbe1e0;
+}
+
+.app {
+  max-width: 640px;
+  margin: 0 auto;
+  padding: 1.6rem 1.2rem 4rem;
+  min-height: 100vh;
+}
+
+/* ---- header: mode toggle + capture ----------------------------------- */
+
+.app-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  margin-bottom: 1.4rem;
+}
+
+.mode-toggle {
+  display: inline-flex;
+  border: 1px solid var(--line-strong);
+  border-radius: 2px;
+  overflow: hidden;
+  font-family: var(--font-ui);
+  font-size: var(--fs-2xs);
+  letter-spacing: .14em;
+  text-transform: uppercase;
+}
+.mode-toggle button {
+  appearance: none;
+  border: 0;
+  background: transparent;
+  color: var(--muted);
+  padding: .5rem .9rem;
+  cursor: pointer;
+  font: inherit;
+  letter-spacing: inherit;
+  text-transform: inherit;
+}
+.mode-toggle button[aria-pressed="true"] {
+  background: var(--mode-mid);
+  color: var(--bg);
+}
+
+.waiting-line {
+  font-family: var(--font-ui);
+  font-size: var(--fs-2xs);
+  color: var(--muted);
+  letter-spacing: .02em;
+}
+.waiting-line .fig { font-family: var(--font-mono); font-variant-numeric: tabular-nums; }
+
+/* Capture: a ruled line, not a boxed input — "paper being written on." */
+.capture {
+  display: block;
+  width: 100%;
+  border: 0;
+  border-bottom: 1px solid var(--line-strong);
+  background: transparent;
+  font-family: var(--font-serif);
+  font-size: var(--fs-xl);
+  line-height: 1.6;
+  padding: .3rem 0 .6rem;
+  color: var(--ink);
+  margin-bottom: 1.6rem;
+}
+.capture::placeholder {
+  font-style: italic;
+  color: var(--muted);
+}
+.capture:focus { outline: none; border-bottom-color: var(--mode-mid); }
+
+/* ---- nav ------------------------------------------------------------- */
+
+.nav {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0 1.1rem;
+  margin-bottom: 1.6rem;
+  border-bottom: 1px solid var(--line);
+  font-family: var(--font-ui);
+  font-size: var(--fs-3xs);
+  letter-spacing: .12em;
+  text-transform: uppercase;
+}
+.nav button {
+  appearance: none;
+  border: 0;
+  border-bottom: 2px solid transparent;
+  background: transparent;
+  color: var(--muted);
+  padding: .7rem .1rem .6rem;
+  cursor: pointer;
+  font: inherit;
+  letter-spacing: inherit;
+  text-transform: inherit;
+}
+.nav button .fig {
+  font-family: var(--font-mono);
+  font-variant-numeric: tabular-nums;
+  margin-left: .3rem;
+}
+.nav button[aria-current="page"] {
+  color: var(--ink);
+  border-bottom-color: var(--mode-mid);
+}
+.nav button:hover { color: var(--ink); }
+
+/* ---- sections / eyebrows --------------------------------------------- */
+
+.section { margin-bottom: 2.2rem; }
+.section-title {
+  font-family: var(--font-ui);
+  font-size: var(--fs-2xs);
+  letter-spacing: .16em;
+  text-transform: uppercase;
+  color: var(--muted);
+  margin-bottom: .7rem;
+  display: flex;
+  align-items: baseline;
+  gap: .5rem;
+}
+.section-title .fig { font-family: var(--font-mono); font-variant-numeric: tabular-nums; }
+
+.empty-note {
+  font-family: var(--font-ui);
+  font-size: var(--fs-sm);
+  color: var(--muted);
+  font-style: normal;
+  padding: .4rem 0 1rem;
+}
+
+/* ---- task rows --------------------------------------------------------- */
+
+.task-list { list-style: none; }
+
+.task-row {
+  display: flex;
+  align-items: flex-start;
+  gap: .8rem;
+  padding: .65rem 0;
+  border-bottom: 1px solid var(--line);
+}
+
+/* Filled ring = done. The one place a checkbox-like control appears. */
+.task-ring {
+  appearance: none;
+  flex: none;
+  width: 1.1rem;
+  height: 1.1rem;
+  margin-top: .25rem;
+  border-radius: 50%;
+  border: 1.5px solid var(--line-strong);
+  background: transparent;
+  cursor: pointer;
+}
+.task-ring:hover { border-color: var(--mode-mid); }
+.task-row.is-done .task-ring {
+  background: var(--mode-mid);
+  border-color: var(--mode-mid);
+}
+
+.task-main { flex: 1; min-width: 0; }
+.task-title {
+  font-family: var(--font-serif);
+  font-size: var(--fs-md);
+  line-height: 1.5;
+  color: var(--ink);
+}
+.task-row.is-done .task-title {
+  color: var(--muted);
+  text-decoration: line-through;
+  text-decoration-color: var(--line-strong);
+}
+
+.task-meta {
+  display: flex;
+  gap: .5rem;
+  margin-top: .15rem;
+  font-family: var(--font-ui);
+  font-size: var(--fs-3xs);
+  letter-spacing: .08em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+
+/* Solid tag = due today. The one other coloured element. */
+.tag-today {
+  background: var(--mode-mid);
+  color: var(--bg);
+  padding: .1rem .45rem;
+  border-radius: 2px;
+}
+
+/* Sand wash across a row = completed, in views that show completed rows
+ * inline (e.g. the weekly review's "finished this week" list) rather than
+ * with a ring alone. */
+.row-completed { background: var(--mode-sand); border-radius: 2px; }
+
+.task-actions {
+  display: flex;
+  gap: .4rem;
+  flex: none;
+}
+.task-actions button {
+  appearance: none;
+  border: 1px solid var(--line-strong);
+  background: transparent;
+  color: var(--muted);
+  font-family: var(--font-ui);
+  font-size: var(--fs-4xs);
+  letter-spacing: .1em;
+  text-transform: uppercase;
+  padding: .3rem .55rem;
+  border-radius: 2px;
+  cursor: pointer;
+}
+.task-actions button:hover { color: var(--ink); border-color: var(--mode-mid); }
+
+/* ---- Today cap ---------------------------------------------------------- */
+
+.cap-meter {
+  font-family: var(--font-mono);
+  font-variant-numeric: tabular-nums;
+  font-size: var(--fs-sm);
+  color: var(--muted);
+}
+.cap-meter.at-cap { color: var(--mode-dark); }
+
+/* ---- rhythms strip ------------------------------------------------------ */
+
+.rhythm-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: .8rem;
+  padding: .55rem 0;
+  border-bottom: 1px solid var(--line);
+  font-family: var(--font-ui);
+  font-size: var(--fs-sm);
+}
+.rhythm-name { color: var(--ink); }
+.rhythm-name.is-overdue::after {
+  content: '·';
+  color: var(--mode-mid);
+  margin-left: .4rem;
+}
+
+.rhythm-log-btn {
+  appearance: none;
+  border: 1px solid var(--line-strong);
+  background: transparent;
+  color: var(--muted);
+  font-family: var(--font-ui);
+  font-size: var(--fs-4xs);
+  letter-spacing: .1em;
+  text-transform: uppercase;
+  padding: .3rem .6rem;
+  border-radius: 2px;
+  cursor: pointer;
+}
+.rhythm-log-btn:hover { color: var(--ink); border-color: var(--mode-mid); }
+
+.streak {
+  font-family: var(--font-mono);
+  font-variant-numeric: tabular-nums;
+  color: var(--muted);
+}
+
+/* Pips = quota progress; a ghost pip is the stretch target. */
+.pips { display: inline-flex; gap: .25rem; }
+.pip {
+  width: .55rem;
+  height: .55rem;
+  border-radius: 50%;
+  border: 1.5px solid var(--mode-mid);
+  background: transparent;
+}
+.pip.filled { background: var(--mode-mid); }
+.pip.ghost { border-style: dashed; }
+
+/* ---- rituals: guided, one item at a time -------------------------------- */
+
+.ritual-step {
+  border: 1px solid var(--line);
+  border-radius: 2px;
+  padding: 1.6rem 1.4rem;
+  margin-bottom: 1.4rem;
+}
+.ritual-prompt {
+  font-family: var(--font-serif);
+  font-size: var(--fs-xl);
+  line-height: 1.5;
+  margin-bottom: 1.2rem;
+}
+.ritual-choices {
+  display: flex;
+  flex-wrap: wrap;
+  gap: .6rem;
+}
+.ritual-choices button {
+  appearance: none;
+  border: 1px solid var(--line-strong);
+  background: transparent;
+  color: var(--ink);
+  font-family: var(--font-ui);
+  font-size: var(--fs-xs);
+  letter-spacing: .06em;
+  padding: .6rem 1rem;
+  border-radius: 2px;
+  cursor: pointer;
+}
+.ritual-choices button:hover { border-color: var(--mode-mid); color: var(--mode-dark); }
+.ritual-choices .kbd {
+  font-family: var(--font-mono);
+  font-size: var(--fs-3xs);
+  color: var(--muted);
+  margin-left: .4rem;
+}
+.ritual-progress {
+  font-family: var(--font-mono);
+  font-variant-numeric: tabular-nums;
+  font-size: var(--fs-xs);
+  color: var(--muted);
+  margin-bottom: .8rem;
+}
+
+/* ---- lists ---------------------------------------------------------- */
+
+.list-group-title {
+  font-family: var(--font-ui);
+  font-size: var(--fs-2xs);
+  letter-spacing: .16em;
+  text-transform: uppercase;
+  color: var(--muted);
+  margin: 1.4rem 0 .5rem;
+}
+.list-block { margin-bottom: 1rem; }
+.list-name {
+  font-family: var(--font-serif);
+  font-size: var(--fs-lg);
+  margin-bottom: .4rem;
+}
+.list-item {
+  display: flex;
+  align-items: center;
+  gap: .7rem;
+  padding: .45rem 0;
+  border-bottom: 1px solid var(--line);
+  font-family: var(--font-serif);
+  font-size: var(--fs-base);
+}
+.list-item.is-bought .list-item-text {
+  color: var(--muted);
+  text-decoration: line-through;
+  text-decoration-color: var(--line-strong);
+}
+.list-item-check {
+  appearance: none;
+  flex: none;
+  width: 1rem;
+  height: 1rem;
+  border-radius: 50%;
+  border: 1.5px solid var(--line-strong);
+  background: transparent;
+  cursor: pointer;
+}
+.list-item.is-bought .list-item-check {
+  background: var(--mode-mid);
+  border-color: var(--mode-mid);
+}
+
+/* ---- sign-in ---------------------------------------------------------- */
+
+.signin {
+  max-width: 360px;
+  margin: 3.5rem auto;
+  text-align: center;
+}
+.signin p { font-family: var(--font-serif); font-size: var(--fs-md); margin-bottom: 1.4rem; color: var(--muted); }
+.signin input[type="email"] {
+  width: 100%;
+  border: 0;
+  border-bottom: 1px solid var(--line-strong);
+  background: transparent;
+  font-family: var(--font-serif);
+  font-size: var(--fs-lg);
+  padding: .4rem 0;
+  text-align: center;
+  margin-bottom: 1.2rem;
+}
+.signin input[type="email"]:focus { outline: none; border-bottom-color: var(--mode-mid); }
+.signin button {
+  appearance: none;
+  border: 1px solid var(--line-strong);
+  background: transparent;
+  font-family: var(--font-ui);
+  font-size: var(--fs-xs);
+  letter-spacing: .1em;
+  text-transform: uppercase;
+  padding: .6rem 1.4rem;
+  border-radius: 2px;
+  cursor: pointer;
+}
+.signin button:hover { border-color: var(--mode-mid); color: var(--mode-dark); }
+.signin .status {
+  margin-top: 1rem;
+  font-family: var(--font-ui);
+  font-size: var(--fs-xs);
+  color: var(--muted);
+}
+
+/* ---- config notice ------------------------------------------------------ */
+
+.config-notice {
+  font-family: var(--font-ui);
+  font-size: var(--fs-xs);
+  line-height: 1.6;
+  color: var(--ink);
+  background: var(--panel-bg);
+  border-left: 3px solid var(--mode-mid, var(--line-strong));
+  padding: .9rem 1.1rem;
+  margin: 0 0 1.5rem;
+  border-radius: 2px;
+}

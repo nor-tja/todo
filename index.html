@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>todo</title>
+<meta name="theme-color" content="#f5f2ed">
+<link rel="manifest" href="manifest.json">
+<link rel="icon" href="data:,">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,500;1,400&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/css/site.css">
+<link rel="stylesheet" href="assets/css/app.css">
+</head>
+<body class="mode-home">
+
+<div id="config-notice" class="config-notice app" hidden>
+  This app has no Supabase project configured yet — it will work locally in
+  this browser, but nothing will sync. See <code>SETUP.md</code> and fill in
+  <code>assets/js/config.js</code>.
+</div>
+
+<div id="signin" class="signin" hidden>
+  <p>Sign in with a magic link — no password to type on a phone.</p>
+  <form id="signin-form">
+    <input type="email" id="signin-email" name="email" placeholder="you@example.com" required autocomplete="email">
+    <button type="submit">Send link</button>
+  </form>
+  <p class="status" id="signin-status"></p>
+</div>
+
+<div id="app" class="app" hidden>
+  <header class="app-header">
+    <div id="mode-toggle" class="mode-toggle" role="group" aria-label="Work or Home">
+      <button type="button" data-mode="home" aria-pressed="true">Home</button>
+      <button type="button" data-mode="work" aria-pressed="false">Work</button>
+    </div>
+    <div id="waiting-line" class="waiting-line"></div>
+  </header>
+
+  <input
+    id="capture"
+    class="capture"
+    type="text"
+    placeholder="What's on your mind…"
+    autocomplete="off"
+    autofocus
+  >
+
+  <nav id="nav" class="nav">
+    <button type="button" data-view="today" aria-current="page">Today <span class="fig"></span></button>
+    <button type="button" data-view="backlog">Backlog</button>
+    <button type="button" data-view="inbox">Inbox <span class="fig"></span></button>
+    <button type="button" data-view="rituals">Rituals</button>
+    <button type="button" data-view="lists">Lists</button>
+  </nav>
+
+  <main id="view"></main>
+</div>
+
+<noscript>
+  <div class="config-notice app">This app is built in the browser and needs JavaScript to run.</div>
+</noscript>
+
+<script type="module" src="assets/js/app.js"></script>
+</body>
+</html>

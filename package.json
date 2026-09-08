@@ -1,0 +1,9 @@
+{
+  "name": "todo-app",
+  "private": true,
+  "type": "module",
+  "description": "todo.katjanorstad.no — vanilla JS, no build step, no runtime dependencies.",
+  "scripts": {
+    "test": "node --test"
+  }
+}

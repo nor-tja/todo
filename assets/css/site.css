@@ -1,0 +1,78 @@
+/* Foundation ported from katjanorstad.no's assets/css/site.css: the fluid
+ * root size, the base palette, the three type-role tokens, and the type
+ * scale. See that file for the full reasoning behind each choice; this is
+ * the subset that travels — nav/back/eyebrow/noscript are specific to the
+ * site's page furniture and are not part of what this app inherits.
+ *
+ * The role rule is enforced by test here too, mirroring
+ * tests/typography.test.js on the site: --font-serif is for anything that
+ * is a sentence, --font-ui is furniture, --font-mono is figures and
+ * notation only, never a word, never uppercase. See tests/design-system.test.js.
+ */
+
+html { font-size: clamp(1rem, .944rem + .25vw, 1.125rem); }
+
+:root {
+  /* Base palette. */
+  --bg: #f5f2ed;
+  --ink: #1a1814;
+  --muted: #6e6963;
+  --line: #d8d3cc;
+  --line-strong: #8f8b87;
+  --panel-bg: #efe9df;
+
+  /* Type roles. */
+  --font-serif: 'EB Garamond', Georgia, 'Times New Roman', serif;
+  --font-ui: 'Avenir Next', Avenir, -apple-system, system-ui, 'Segoe UI',
+             Roboto, 'Helvetica Neue', Arial, sans-serif;
+  --font-mono: 'DM Mono', ui-monospace, 'SF Mono', Menlo, Consolas, monospace;
+
+  /* Type scale. */
+  --fs-4xs: .6rem;
+  --fs-3xs: .65rem;
+  --fs-2xs: .7rem;
+  --fs-xs: .8rem;
+  --fs-sm: .875rem;
+  --fs-base: 1rem;
+  --fs-md: 1.1rem;
+  --fs-lg: 1.2rem;
+  --fs-xl: 1.3rem;
+  --fs-2xl: 1.5rem;
+  --fs-3xl: 1.6rem;
+  --fs-body: 1.125rem;
+
+  --leading-body: 1.9rem;
+}
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+  background: var(--bg);
+  color: var(--ink);
+  font-family: var(--font-serif);
+  font-weight: 400;
+  min-height: 100vh;
+}
+
+/* Same optical-sizing correction as the site, for the same reason: EB
+ * Garamond has no cut below 400, so display-size text is thinned by
+ * turning off macOS's smoothing pass rather than by weight. */
+h1, h2 {
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+:focus-visible {
+  outline: 2px solid var(--mode-mid, var(--line-strong));
+  outline-offset: 2px;
+  border-radius: 2px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: .01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: .01ms !important;
+    scroll-behavior: auto !important;
+  }
+}

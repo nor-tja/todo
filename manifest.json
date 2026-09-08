@@ -1,0 +1,14 @@
+{
+  "name": "Todo",
+  "short_name": "Todo",
+  "description": "Today is a promise you make, not a filter over due dates.",
+  "start_url": "./",
+  "scope": "./",
+  "display": "standalone",
+  "background_color": "#f5f2ed",
+  "theme_color": "#f5f2ed",
+  "icons": [
+    { "src": "assets/icons/icon-192.png", "sizes": "192x192", "type": "image/png" },
+    { "src": "assets/icons/icon-512.png", "sizes": "512x512", "type": "image/png" }
+  ]
+}
